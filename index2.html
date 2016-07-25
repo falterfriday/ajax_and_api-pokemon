@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pokedex</title>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script>
+		$(document).ready(function(){
+			for (var i = 1; i<=88; i++) {
+				// pulls the pic from api
+				$("#pokemon").append("<img id="+i+" class='pics card-panel gray darken-2 waves-effect waves-light btn-large' src='http://pokeapi.co/media/img/"+i+".png'>")
+			};
+				$(document).on('click', 'img', function(){
+				$("#pokedex").html("<img src='http://pokeapi.co/media/img/"+this.id+".png'><br>")
+				$.get("http://pokeapi.co/api/v1/pokemon/"+this.id+"/", function(res) {
+					$("#pokedex").append("<h5>"+res.name+"</h5>");
+					$("#pokedex").append("<h6>Types</h6>");
+						for (var j = 0; j < res.types.length; j++) {	
+							$("#pokedex").append("<li>"+res.types[j].name+"</li>");
+						};					
+					$("#pokedex").append("<h6>Height</h6><p>"+res.height+"</p>");
+					$("#pokedex").append("<h6>Weight</h6><p>"+res.weight+"</p>");
+					}, "json");
+				});
+
+
+			})	
+
+	</script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+	<style type="text/css">
+		body {
+			background-image: url(http://www.pageresource.com/wallpapers/wallpaper/pokemon_136497.jpg);
+		    background-repeat:no-repeat;
+		    background-attachment:fixed;
+		    background-position: left top;
+		    background-size: 80% 80%;
+		    position: absolute;
+		    /*height:610px;*/
+		    /*width: 100%;*/
+		    /*margin:0;*/
+		}
+		.pics {
+			height: 100px;
+			width: 100px;
+			border: lightgray solid 2px;
+			display: inline-block;
+			margin: 10px;
+			padding: 1px;
+			border-radius: 15px 15px 15px 0px;
+		}
+		.btn-large {
+			background-color: rgba(38, 166, 154, 0.90);
+		}
+		#pokemon {
+			display: inline-block;
+			width: 75%;
+			margin: 0px;
+		}
+		#pokedex {
+			padding-left: 15px;
+			vertical-align: top;
+			display: inline-block;
+			width: 20%;
+			height: 500px;
+			border: lightgray solid 2px;
+			border-radius: 15px 15px 15px 0px;
+			position: fixed;
+		}
+
+	</style>
+</head>
+<body>
+<div id="pokewrapper">
+	<div id="pokemon"></div>
+	<div id="pokedex" class="card-panel gray darken-5 waves-effect waves-dark btn-large"></div>
+</div>
+</body>
+</html>
